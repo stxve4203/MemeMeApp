@@ -7,13 +7,14 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var toolbar: UIToolbar!
     
     @IBOutlet weak var navBar: UINavigationBar!
-    
+
     @IBOutlet weak var imagePickerView: UIImageView!
+    
    
     @IBOutlet weak var cameraButton: UIButton!
     
@@ -49,7 +50,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         unsubscibeFromKeyboardNotifications()
     }
     
-    
+    //MARK: Generate and save meme
     func generateMemedImage() -> UIImage {
         navBar.isHidden = true
         toolbar.isHidden = true
@@ -99,11 +100,6 @@ func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMe
         dismiss(animated: true, completion: nil)
     }
     
-    
-    @IBAction func cancelButtonPressed(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-    
     //MARK: Keyboard
     @objc func keyboardWillShow(_ notification: Notification) {
         if view.frame.origin.y == -getKeyboardHeight(notification) {
@@ -125,7 +121,12 @@ func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMe
         
     }
     
-        
+    //MARK: Buttons
+    
+    @IBAction func cancelButtonPressed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func shareButtonPressed(_ sender: Any) {
     cancelButton.isEnabled = true
         let image = generateMemedImage()
