@@ -52,17 +52,14 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     
     //MARK: Generate and save meme
     func generateMemedImage() -> UIImage {
-        navBar.isHidden = true
-        toolbar.isHidden = true
+        hideBars()
         
         UIGraphicsBeginImageContext(self.view.frame.size)
         view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
         let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        navBar.isHidden = false
-        toolbar.isHidden = false
-        
+        showBars()
         return memedImage
     }
     
@@ -102,7 +99,8 @@ func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMe
     
     //MARK: Keyboard
     @objc func keyboardWillShow(_ notification: Notification) {
-        if view.frame.origin.y == -getKeyboardHeight(notification) {
+        if bottomTextField.isFirstResponder {
+        view.frame.origin.y -= getKeyboardHeight(notification)
         }
     }
 
@@ -148,7 +146,7 @@ func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMe
         NSAttributedString.Key.strokeColor: UIColor.black,
         NSAttributedString.Key.foregroundColor: UIColor.white,
         NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-        NSAttributedString.Key.strokeWidth: 4
+        NSAttributedString.Key.strokeWidth: -4
         ]
         textField.defaultTextAttributes = memeTextAttributes
         textField.textAlignment = .center
@@ -164,6 +162,16 @@ func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMe
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func hideBars() {
+        navBar.isHidden = true
+        toolbar.isHidden = true
+        }
+    
+    func showBars() {
+        navBar.isHidden = false
+        toolbar.isHidden = false
     }
     }
 
