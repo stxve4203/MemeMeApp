@@ -52,14 +52,14 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     
     //MARK: Generate and save meme
     func generateMemedImage() -> UIImage {
-        hideBars()
+        toolBarVisible(visible: false)
         
         UIGraphicsBeginImageContext(self.view.frame.size)
         view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
         let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        showBars()
+        toolBarVisible(visible: true)
         return memedImage
     }
     
@@ -164,14 +164,9 @@ func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMe
         return true
     }
     
-    func hideBars() {
-        navBar.isHidden = true
-        toolbar.isHidden = true
-        }
-    
-    func showBars() {
-        navBar.isHidden = false
-        toolbar.isHidden = false
-    }
+    func toolBarVisible(visible: Bool){
+           toolbar.isHidden = !visible
+           navBar.isHidden = !visible
+       }
     }
 
