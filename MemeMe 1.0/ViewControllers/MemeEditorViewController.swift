@@ -11,12 +11,13 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
 
     @IBOutlet weak var toolbar: UIToolbar!
     
+    @IBOutlet weak var pickAlbumButton: UIButton!
+    
+    @IBOutlet weak var pickCameraButton: UIButton!
+    
     @IBOutlet weak var navBar: UINavigationBar!
 
     @IBOutlet weak var imagePickerView: UIImageView!
-    
-   
-    @IBOutlet weak var cameraButton: UIButton!
     
     @IBOutlet weak var topTextField: UITextField!
     
@@ -38,7 +39,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        pickCameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         subscribeToKeyboardNotifications()
 
         configureTextFields(textField: topTextField)
@@ -80,13 +81,20 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         present(picker, animated: true, completion: nil)
         shareButton.isEnabled = true
     }
-    
-    @IBAction func pickAnImageFromAlbum(_ sender: Any) {
-        configurePickAnImage(.photoLibrary)
-    }
-    
-    @IBAction func pickAnImageFromCamera(_ sender: Any) {
-        configurePickAnImage(.camera)
+
+    @IBAction func pickerButton(_ sender: UIButton) {
+        pickCameraButton.tag = 1
+
+        pickAlbumButton.tag = 2
+        
+        switch sender.tag {
+        case 1:
+            configurePickAnImage(.camera)
+        case 2:
+            configurePickAnImage(.photoLibrary)
+        default:
+            print("default")
+        }
     }
     
 func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -103,13 +111,16 @@ func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMe
     
     //MARK: Keyboard
     @objc func keyboardWillShow(_ notification: Notification) {
-        if bottomTextField.isFirstResponder {
-        view.frame.origin.y -= getKeyboardHeight(notification)
-        }
+        view.frame.origin.y = -getKeyboardHeight(notification)
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        view.frame.origin.y = 0
     }
 
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIApplication.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIApplication.keyboardWillHideNotification, object: nil)
        }
     
     func unsubscibeFromKeyboardNotifications() {

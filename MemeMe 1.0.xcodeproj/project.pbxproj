@@ -68,7 +68,6 @@
 		AAEA588127A15BCF004BC411 /* MemeMe 1.0 */ = {
 			isa = PBXGroup;
 			children = (
-				AAFA094027AABAF700D10B7B /* New Group */,
 				AAFA093727AAB6DE00D10B7B /* ViewControllers */,
 				AAEA589627A186F1004BC411 /* Model */,
 				AAEA588227A15BCF004BC411 /* AppDelegate.swift */,
@@ -99,13 +98,6 @@
 				AAFA094827B148EE00D10B7B /* MemeCollectionViewController.swift */,
 			);
 			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		AAFA094027AABAF700D10B7B /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		AAFA094127AABB0600D10B7B /* Cells */ = {
