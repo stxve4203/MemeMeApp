@@ -111,7 +111,9 @@ func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMe
     
     //MARK: Keyboard
     @objc func keyboardWillShow(_ notification: Notification) {
+        if bottomTextField.isFirstResponder == true {
         view.frame.origin.y = -getKeyboardHeight(notification)
+        }
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
